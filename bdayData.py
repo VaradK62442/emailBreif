@@ -34,7 +34,11 @@ def get_pages(num_pages=None):
 
     data = response.json()
 
-    results = data["results"]
+    try:
+        results = data["results"]
+    except KeyError:
+        print(data)
+
     while data["has_more"] and get_all:
         payload = {"page_size": page_size, "start_cursor": data["next_cursor"]}
         url = f"https://api.notion.com/v1/databases/{DATABASE_ID}/query"
